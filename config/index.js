@@ -7,7 +7,6 @@ admin.initializeApp();
 const adminFirestore = admin.firestore;
 const firestore = admin.firestore();
 const auth = admin.auth();
-const projectId = process.env.GCLOUD_PROJECT;
 const currentEnvironment = "production";
 const version = "0.0.1";
 
