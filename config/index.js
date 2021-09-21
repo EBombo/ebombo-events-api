@@ -1,13 +1,20 @@
 const admin = require("firebase-admin");
-const url = require("url");
 const configJson = require("./config");
+const url = require("url");
 
-admin.initializeApp();
+const config =
+  process.env.NODE_ENV === "production"
+    ? configJson.production
+    : configJson.development;
+
+process.env.NODE_ENV === "production"
+  ? admin.initializeApp()
+  : admin.initializeApp(config.firebase);
 
 const adminFirestore = admin.firestore;
 const firestore = admin.firestore();
 const auth = admin.auth();
-const currentEnvironment = "production";
+const currentEnvironment = process.env.NODE_ENV;
 const version = "0.0.1";
 
 try {
@@ -15,8 +22,6 @@ try {
 } catch (error) {
   console.error("ignoreUndefinedProperties", error);
 }
-
-const config = configJson.development ?? configJson.production;
 
 const hostname = (req) => url.parse(req.headers.origin).hostname;
 
