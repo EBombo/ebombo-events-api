@@ -12,6 +12,7 @@ const { putUpdateUser } = require("./users/put");
 const { postUser, postUserByToken } = require("./users/post");
 const { getGames } = require("./games/get");
 const { businessEmail } = require("./contact/post");
+const { version } = require("../config");
 
 const api = express();
 const router = express.Router();
@@ -22,7 +23,7 @@ router.use(bodyParser.json());
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/", async (req, res) => res.send("Hello dev!"));
+router.get("/", async (req, res) => res.send("Hello dev!", version));
 
 router.get("/tokens/:tokenId", getCustomToken);
 

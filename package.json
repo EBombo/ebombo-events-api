@@ -25,5 +25,8 @@
     "nodemailer": "^6.6.3",
     "nodemailer-smtp-transport": "^2.7.4"
   },
+  "devDependencies": {
+    "prettier": "^2.4.1"
+  },
   "private": true
 }
