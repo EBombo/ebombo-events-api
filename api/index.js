@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { getSeo } = require("./seo/get");
 const { getError } = require("./error/getError");
 const { postError } = require("./error");
 const { getManifest } = require("./manifest/get");
@@ -16,7 +15,6 @@ const { businessEmail } = require("./contact/post");
 
 const api = express();
 const router = express.Router();
-const routerSeo = express.Router();
 
 router.use(cors({ origin: "*" }));
 
@@ -53,10 +51,6 @@ router.post("/contact", businessEmail);
 
 router.get("/error-vanilla", getError);
 
-api.use("/api", router);
-
-routerSeo.all("*", getSeo);
-
-api.use("/api/seo", routerSeo);
+api.use("/", router);
 
 module.exports = { api };
