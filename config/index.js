@@ -8,25 +8,26 @@ const adminFirestore = admin.firestore;
 const firestore = admin.firestore();
 const auth = admin.auth();
 const projectId = process.env.GCLOUD_PROJECT;
-const currentEnvironment = projectId.includes("-dev") ? "dev" : "production";
+console.log("projectId", projectId)
+const currentEnvironment = "production";
 
 try {
-  firestore.settings({ ignoreUndefinedProperties: true });
+    firestore.settings({ignoreUndefinedProperties: true});
 } catch (error) {
-  console.error("ignoreUndefinedProperties", error);
+    console.error("ignoreUndefinedProperties", error);
 }
 
 const config = projectId.includes("-dev")
-  ? configJson.development
-  : configJson.production;
+    ? configJson.development
+    : configJson.production;
 
 const hostname = (req) => url.parse(req.headers.origin).hostname;
 
 module.exports = {
-  adminFirestore,
-  currentEnvironment,
-  firestore,
-  hostname,
-  auth,
-  config,
+    adminFirestore,
+    currentEnvironment,
+    firestore,
+    hostname,
+    auth,
+    config,
 };
