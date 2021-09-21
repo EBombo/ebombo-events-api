@@ -17,11 +17,6 @@ COPY . /app
 #--only=production
 RUN npm install --force
 
-# set port
-ARG SERVER_PORT=5000
-ENV SERVER_PORT=$SERVER_PORT
-EXPOSE $SERVER_PORT
-
 # define env
 ENV NODE_ENV=production
 
