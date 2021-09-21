@@ -8,7 +8,6 @@ const adminFirestore = admin.firestore;
 const firestore = admin.firestore();
 const auth = admin.auth();
 const projectId = process.env.GCLOUD_PROJECT;
-console.log("projectId", projectId)
 const currentEnvironment = "production";
 
 try {
@@ -17,9 +16,7 @@ try {
     console.error("ignoreUndefinedProperties", error);
 }
 
-const config = projectId.includes("-dev")
-    ? configJson.development
-    : configJson.production;
+const config = configJson.development ?? configJson.production;
 
 const hostname = (req) => url.parse(req.headers.origin).hostname;
 
