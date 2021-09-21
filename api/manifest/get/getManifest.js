@@ -18,7 +18,11 @@ exports.getManifest = async (req, res, next) => {
 
     let manifest = manifestRef.data();
 
-    domain = domain.replace(".", "&").replace(".", "&");
+    domain = domain
+      .replace(".", "&")
+      .replace(".", "&")
+      .replace(".", "&")
+      .replace(".", "&");
 
     manifest = get(manifest, domain);
 

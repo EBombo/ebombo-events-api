@@ -23,7 +23,7 @@ router.use(bodyParser.json());
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/", async (req, res) => res.send("Hello dev!", version));
+router.get("/", async (req, res) => res.send(`Hello dev ${version}`));
 
 router.get("/tokens/:tokenId", getCustomToken);
 
