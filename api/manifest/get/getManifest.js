@@ -24,8 +24,6 @@ exports.getManifest = async (req, res, next) => {
       .replace(".", "&")
       .replace(".", "&");
 
-    logger.log("domain", domain);
-
     manifest = get(manifest, domain);
 
     manifest &&
