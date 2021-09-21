@@ -52,6 +52,6 @@ router.post("/contact", businessEmail);
 
 router.get("/error-vanilla", getError);
 
-api.use("/", router);
+api.use("/api", router);
 
 module.exports = { api };
