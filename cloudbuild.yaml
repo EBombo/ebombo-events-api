@@ -1,19 +1,19 @@
 steps:
   # Build the container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/ebombo-events/events-dev-api", "."]
+    args: ["build", "-t", "gcr.io/ebombo-events/events-gold-api", "."]
   # Push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/ebombo-events/events-dev-api"]
+    args: ["push", "gcr.io/ebombo-events/events-gold-api"]
   # Deploy container image to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
     args:
       [
         "run",
         "deploy",
-        "events-dev-api",
+        "events-gold-api",
         "--image",
-        "gcr.io/ebombo-events/events-dev-api",
+        "gcr.io/ebombo-events/events-gold-api",
         "--region",
         "us-central1",
         "--platform",
@@ -21,6 +21,6 @@ steps:
         "--allow-unauthenticated",
       ]
 images:
-  - "gcr.io/ebombo-events/events-dev-api"
+  - "gcr.io/ebombo-events/events-gold-api"
 options:
   logging: CLOUD_LOGGING_ONLY
