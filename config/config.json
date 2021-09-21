@@ -1,0 +1,37 @@
+{
+  "production": {
+    "serverEmail": {
+      "service": "gmail",
+      "host": "smtp.gmail.com",
+      "from": "Bombo Perú Team",
+      "user": "hello@bombo.pe",
+      "password": "Bomboperu123",
+      "storageUrl": ""
+    },
+    "phone": "",
+    "currency": "",
+    "serverUrl": "https://ebombo-events.web.app",
+    "serverUrlTrivia": "https://trivia-321015.web.app",
+    "mails": [
+      "santiago@bombo.pe",
+      "tech@bombo.pe"
+    ],
+    "maxAgeCache": "86400"
+  },
+  "development": {
+    "serverEmail": {
+      "service": "gmail",
+      "host": "smtp.gmail.com",
+      "from": "Bombo Perú Team",
+      "user": "hello@bombo.pe",
+      "password": "Bomboperu123",
+      "storageUrl": ""
+    },
+    "phone": "",
+    "currency": "",
+    "serverUrl": "https://ebombo-events.web.app",
+    "serverUrlTrivia": "https://trivia-dev-321021.web.app",
+    "mails": ["mendo@bombo.pe", "pabloynciorivera@gmail.com", "tech@bombo.pe"],
+    "maxAgeCache": "86400"
+  }
+}
