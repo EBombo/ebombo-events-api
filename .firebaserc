@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "ebombo-events",
+    "dev": "ebombo-events-dev"
+  }
+}
