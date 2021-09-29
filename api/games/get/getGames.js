@@ -54,6 +54,7 @@ const fetchGamesAdmin = async () => {
   const gamesRef = await firestore
     .collection("games")
     .where("deleted", "==", false)
+    .where("isGameToPlay", "==", true)
     .get();
 
   return snapshotToArray(gamesRef);
