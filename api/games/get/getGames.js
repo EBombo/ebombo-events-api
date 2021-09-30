@@ -13,9 +13,11 @@ exports.getGames = async (req, res, next) => {
 
     const gamesAdmin = await fetchGamesAdmin();
 
+    logger.log("gamesAdmin", gamesAdmin.length);
+
     const promises = gamesAdmin.map(async (game) => {
       try {
-        let url = `${game.api}/api/games/users/${userId}`;
+        let url = `${game.api}/games/users/${userId}`;
 
         if (folderId) url = url + `?folderId=${folderId}`;
 
@@ -52,6 +54,7 @@ const fetchGamesAdmin = async () => {
   const gamesRef = await firestore
     .collection("games")
     .where("deleted", "==", false)
+    .where("isGameToPlay", "==", true)
     .get();
 
   return snapshotToArray(gamesRef);
