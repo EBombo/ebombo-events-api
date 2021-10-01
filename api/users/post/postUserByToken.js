@@ -10,7 +10,7 @@ exports.postUserByToken = async (req, res, next) => {
 
     const authUser = await auth.verifyIdToken(tokenId);
 
-    const _user = fetchUser(authUser.uid);
+    const _user = await fetchUser(authUser.uid);
 
     return res.send({
       user: {
