@@ -5,6 +5,7 @@ const { fetchUser } = require("../../../collections/users");
 exports.postUserByToken = async (req, res, next) => {
   try {
     logger.log("postUserByToken", req.body);
+    console.log("postUserByToken", req.body);
 
     let { tokenId, userId } = req.body;
 
