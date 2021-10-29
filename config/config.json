@@ -20,7 +20,7 @@
       "service": "gmail",
       "host": "smtp.gmail.com",
       "from": "Bombo Perú Team",
-      "user": "hello@bombo.pe",
+      "user": "hello@ebombo.com",
       "password": "Bomboperu123",
       "storageUrl": ""
     },
@@ -37,7 +37,7 @@
     "currency": "",
     "serverUrl": "https://ebombo-events.web.app",
     "serverUrlTrivia": "https://trivia-dev-321021.web.app",
-    "mails": ["mendo@bombo.pe", "pabloynciorivera@gmail.com", "tech@bombo.pe"],
+    "mails": ["mendo@bombo.pe", "pabloynciorivera@gmail.com", "anthony@ebombo.com", "tech@bombo.pe"],
     "maxAgeCache": "86400"
   }
 }
