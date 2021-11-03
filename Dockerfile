@@ -14,7 +14,6 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY . /app
 
 # install dependencies
-#--only=production
 RUN npm install --force
 
 # set port
