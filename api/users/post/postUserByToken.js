@@ -11,13 +11,13 @@ exports.postUserByToken = async (req, res, next) => {
 
     const authUser = tokenId ? await auth.verifyIdToken(tokenId) : {};
 
-    const _user = await fetchUser(get(authUser, "uid") ?? userId);
+    const _user = await fetchUser(get(authUser, "uid", userId));
 
     return res.send({
       user: {
         name: _user.name,
         email: _user.email,
-        uid: authUser.uid,
+        uid: get(authUser, "uid", userId),
       },
     });
   } catch (error) {
