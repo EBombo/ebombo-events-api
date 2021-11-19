@@ -11,7 +11,7 @@ steps:
       [
         "run",
         "deploy",
-        "${PROJECT_ID}-api",
+        "${PROJECT_ID}-red-api",
         "--image",
         "gcr.io/${PROJECT_ID}/${PROJECT_ID}-red-api",
         "--region",
