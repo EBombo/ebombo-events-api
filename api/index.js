@@ -24,7 +24,7 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
 router.get("/", async (req, res) =>
-  res.send(`Hello dev ${version} ${process.env.NODE_ENV} ${process.env.PORT}`)
+  res.send(`Hello gold ${version} ${process.env.NODE_ENV} ${process.env.PORT}`)
 );
 
 router.get("/tokens/:tokenId", getCustomToken);
