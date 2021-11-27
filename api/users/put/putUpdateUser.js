@@ -6,12 +6,11 @@ const putUpdateUser = async (req, res, next) => {
     logger.log("user putUpdateUser->", req.body, req.params);
 
     const { userId } = req.params;
-    const { phoneNumber, name, lastName } = req.body;
+    const user = req.body;
 
     await updateUser(userId, {
-      name,
-      lastName,
-      phoneNumber,
+      ...user,
+      updateAt: new Date()
     });
 
     return res.send(200);
