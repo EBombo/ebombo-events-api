@@ -13,8 +13,9 @@ const putCompany = async (req, res, next) => {
       updateAt: new Date(),
     });
 
-    return res.send(200);
+    res.send({ success: true });
   } catch (error) {
+    console.error("put company error->", error);
     next(error);
   }
 };

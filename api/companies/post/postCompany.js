@@ -16,6 +16,7 @@ const postCompany = async (req, res, next) => {
 
     return res.send({ success: true });
   } catch (error) {
+    console.error("post company error->", error);
     next(error);
   }
 };
