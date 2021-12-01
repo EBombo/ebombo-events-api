@@ -6,7 +6,14 @@ steps:
 
   # Build the container image
   - name: "gcr.io/cloud-builders/docker"
-    args: [ "build", "-t", "gcr.io/${PROJECT_ID}/${PROJECT_ID}-red-api","--cache-from", "." ]
+    args: [
+        "build",
+        "-t",
+        "gcr.io/${PROJECT_ID}/${PROJECT_ID}-red-api",
+        "--cache-from",
+        "gcr.io/${PROJECT_ID}/${PROJECT_ID}-red-api:latest",
+        "."
+    ]
 
   # Push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
