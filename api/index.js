@@ -12,6 +12,8 @@ const { putUpdateUser } = require("./users/put");
 const { postUser, postUserByToken } = require("./users/post");
 const { getGames } = require("./games/get");
 const { businessEmail } = require("./contact/post");
+const { postCompany } = require("./companies/post");
+const { putCompany } = require("./companies/put");
 const { version } = require("../config");
 
 const api = express();
@@ -32,6 +34,10 @@ router.get("/tokens/:tokenId", getCustomToken);
 router.post("/users/:userId", validateRequest, postUser);
 
 router.put("/users/:userId/edit", validateRequest, putUpdateUser);
+
+router.post("/companies/:companyId", validateRequest, postCompany);
+
+router.put("/companies/:companyId", validateRequest, putCompany);
 
 router.delete("/users/:userId", validateRequest, deleteUser);
 
