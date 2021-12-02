@@ -1,18 +1,36 @@
-const { firestore } = require("../../../config");
+const get = require("lodash/get");
 const logger = require("../../../utils/logger");
-const { fetchSetting } = require("../../../collections/settings");
-const { config } = require("../../../config");
-const { get, defaultTo } = require("lodash");
+const { updateCompany } = require("../../../collections/companies");
+const { updateUser } = require("../../../collections/users");
 
 const postCompany = async (req, res, next) => {
   try {
-    logger.log("company register->", req.body);
+    logger.log("postCompany ->", req.params, !!req.body);
 
     const { companyId } = req.params;
 
     const company = req.body;
 
-    await firestore.collection("companies").doc(companyId).set(company);
+    const newCompany = {
+      ...company,
+      id: companyId,
+      createAt: new Date(),
+      updateAt: new Date(),
+      deleted: false,
+    };
+
+    const companyPromise = updateCompany(companyId, newCompany);
+
+    const promises = get(company, "usersIds", []).map(
+      async (userId) =>
+        await updateUser(userId, {
+          companyId,
+          company: newCompany,
+          updateAt: new Date(),
+        })
+    );
+
+    await Promise.all([...promises, companyPromise]);
 
     return res.send({ success: true });
   } catch (error) {
