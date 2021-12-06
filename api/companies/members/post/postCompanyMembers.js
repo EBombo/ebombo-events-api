@@ -29,7 +29,7 @@ const postCompanyMembers = async (req, res, next) => {
       });
     });
 
-    await Promise.all([...promises]);
+    await Promise.all(promises);
 
     return res.send({ success: true });
   } catch (error) {

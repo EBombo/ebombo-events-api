@@ -17,6 +17,7 @@ const { putCompany } = require("./companies/put");
 const { version } = require("../config");
 const { postCompanyMembers } = require("./companies/members/post");
 const { putCompanyMembers } = require("./companies/members/put");
+const { deleteMember } = require("./companies/members/delete");
 
 const api = express();
 const router = express.Router();
@@ -46,6 +47,8 @@ router.post(
   validateRequest,
   postCompanyMembers
 );
+
+router.delete("/companies/:companyId/members", validateRequest, deleteMember);
 
 router.put("/companies/:companyId/members", validateRequest, putCompanyMembers);
 
