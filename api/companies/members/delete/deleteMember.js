@@ -1,4 +1,5 @@
 const { firestore } = require("../../../../config");
+const {logger} = require("firebase-functions");
 
 const deleteMember = async (req, res, next) => {
   try {
@@ -14,6 +15,7 @@ const deleteMember = async (req, res, next) => {
 
     return res.send({ success: true });
   } catch (error) {
+    logger.log("delete member error ->",error)
     next(error);
   }
 };

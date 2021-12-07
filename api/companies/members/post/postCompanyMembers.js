@@ -33,7 +33,7 @@ const postCompanyMembers = async (req, res, next) => {
 
     return res.send({ success: true });
   } catch (error) {
-    console.error("post members error->", error);
+    logger.error("post members error->", error);
     next(error);
   }
 };
