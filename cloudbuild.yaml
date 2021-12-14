@@ -35,6 +35,22 @@ steps:
           "--allow-unauthenticated",
       ]
 
+  # Force the new revision to serve 100% of traffic.
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "gcloud"
+    args:
+      [
+          "run",
+          "services",
+          "update-traffic",
+          "${PROJECT_ID}-red-api",
+          "--to-latest",
+          "--platform",
+          "managed",
+          "--region",
+          "us-central1",
+      ]
+
 images:
   - "gcr.io/${PROJECT_ID}/${PROJECT_ID}-red-api"
 
