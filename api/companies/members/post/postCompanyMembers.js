@@ -10,6 +10,9 @@ const postCompanyMembers = async (req, res, next) => {
     const { members: membersEmails, role, ads } = req.body;
 
     const promises = membersEmails.map(async (memberEmail) => {
+      // Prevent create empty member.
+      if (!memberEmail) return;
+
       const membersRef = await firestore
         .collection("companies")
         .doc(companyId)
