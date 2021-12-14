@@ -18,7 +18,7 @@ exports.postUserByToken = async (req, res, next) => {
         name: _user.name,
         email: _user.email,
         uid: get(authUser, "uid", userId),
-        companyId: get(authUser, "companyId", null),
+        companyId: get(_user, "companyId", null),
       },
     });
   } catch (error) {
