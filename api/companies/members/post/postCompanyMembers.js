@@ -7,9 +7,9 @@ const postCompanyMembers = async (req, res, next) => {
 
     const { companyId } = req.params;
 
-    const { members, role, ads } = req.body;
+    const { members: membersEmails, role, ads } = req.body;
 
-    const promises = members.map(async (member) => {
+    const promises = membersEmails.map(async (memberEmail) => {
       const membersRef = await firestore
         .collection("companies")
         .doc(companyId)
@@ -19,9 +19,10 @@ const postCompanyMembers = async (req, res, next) => {
       await membersRef.doc(memberId).set({
         id: memberId,
         key: memberId,
-        email: member,
+        email: memberEmail,
         role,
         ads,
+        searchName: [memberEmail.toUpperCase()],
         status: "Active",
         createAt: new Date(),
         updateAt: new Date(),
