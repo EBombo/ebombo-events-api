@@ -1,26 +1,58 @@
 steps:
+  # Pull image
+  - name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args: [ "-c" , "docker pull gcr.io/${PROJECT_ID}/${PROJECT_ID}-gold-api:latest || exit 0" ]
+
   # Build the container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/${PROJECT_ID}/${PROJECT_ID}-gold-api", "."]
+    args: [
+        "build",
+        "-t",
+        "gcr.io/${PROJECT_ID}/${PROJECT_ID}-gold-api",
+        "--cache-from",
+        "gcr.io/${PROJECT_ID}/${PROJECT_ID}-gold-api:latest",
+        "."
+    ]
+
   # Push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/${PROJECT_ID}/${PROJECT_ID}-gold-api"]
+    args: [ "push", "gcr.io/${PROJECT_ID}/${PROJECT_ID}-gold-api" ]
+
   # Deploy container image to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
     args:
       [
-        "run",
-        "deploy",
-        "${PROJECT_ID}-gold-api",
-        "--image",
-        "gcr.io/${PROJECT_ID}/${PROJECT_ID}-gold-api",
-        "--region",
-        "us-central1",
-        "--platform",
-        "managed",
-        "--allow-unauthenticated",
+          "run",
+          "deploy",
+          "${PROJECT_ID}-gold-api",
+          "--image",
+          "gcr.io/${PROJECT_ID}/${PROJECT_ID}-gold-api",
+          "--region",
+          "us-central1",
+          "--platform",
+          "managed",
+          "--allow-unauthenticated",
       ]
+
+  # Force the new revision to serve 100% of traffic.
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "gcloud"
+    args:
+      [
+          "run",
+          "services",
+          "update-traffic",
+          "${PROJECT_ID}-gold-api",
+          "--to-latest",
+          "--platform",
+          "managed",
+          "--region",
+          "us-central1",
+      ]
+
 images:
   - "gcr.io/${PROJECT_ID}/${PROJECT_ID}-gold-api"
+
 options:
   logging: CLOUD_LOGGING_ONLY
