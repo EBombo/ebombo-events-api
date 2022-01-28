@@ -82,6 +82,7 @@ const setUser = async (user, verificationCode, isVerified, origin) => {
         verificationCode,
         isVerified,
         origin,
+        terms: true,
         theme: get(user, "theme", "darkTheme"),
         acls: user.acls || {},
       },
