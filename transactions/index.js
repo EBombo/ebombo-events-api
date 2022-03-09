@@ -1,26 +1,9 @@
 const { firestore } = require("../config");
 
-exports.transaction = async (
-  user,
-  payment,
-  amount,
-  description,
-  action,
-  extra,
-  note = null,
-  extra2 = null
-) => {
+exports.transaction = async (user, payment, amount, description, action, extra, note = null, extra2 = null) => {
   const transactionRef = await firestore.collection("transactions");
   const transactionId = await transactionRef.doc().id;
-  const transaction = documentTransaction(
-    transactionId,
-    user,
-    payment,
-    amount,
-    description,
-    action,
-    note
-  );
+  const transaction = documentTransaction(transactionId, user, payment, amount, description, action, note);
 
   if (extra)
     if (action === "withdraw") transaction.accountNumber = extra;
@@ -33,15 +16,7 @@ exports.transaction = async (
   return transactionId;
 };
 
-const documentTransaction = (
-  transactionId,
-  user,
-  payment,
-  amount,
-  description,
-  action,
-  note
-) => ({
+const documentTransaction = (transactionId, user, payment, amount, description, action, note) => ({
   id: transactionId,
   user: user,
   payment: +payment,

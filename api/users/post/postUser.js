@@ -24,9 +24,7 @@ const postUser = async (req, res, next) => {
     const phoneNumber = get(user, "phoneNumber", null);
 
     const phoneNumberAlreadyExists =
-      user.providerData.providerId === "password"
-        ? await isPhoneNumberAlreadyExists(phoneNumber)
-        : false;
+      user.providerData.providerId === "password" ? await isPhoneNumberAlreadyExists(phoneNumber) : false;
 
     if (phoneNumberAlreadyExists)
       return res.status(412).send({
@@ -50,10 +48,7 @@ const postUser = async (req, res, next) => {
 const isPhoneNumberAlreadyExists = async (phoneNumber) => {
   if (!phoneNumber) return false;
 
-  const userQuerySnapshot = await firestore
-    .collection("users")
-    .where("phoneNumber", "==", phoneNumber)
-    .get();
+  const userQuerySnapshot = await firestore.collection("users").where("phoneNumber", "==", phoneNumber).get();
 
   return !userQuerySnapshot.empty;
 };
@@ -97,12 +92,7 @@ const sendMessage = async (user, verificationCode, origin) => {
     const newAccount = templates["newAccount"];
 
     if (user.providerData.providerId === "password")
-      return await sendVerificationCodeEmail(
-        user,
-        verificationCode,
-        origin,
-        verifyCode
-      );
+      return await sendVerificationCodeEmail(user, verificationCode, origin, verifyCode);
 
     await sendWelcomeEmail(user, origin, newAccount);
   } catch (error) {
@@ -110,19 +100,10 @@ const sendMessage = async (user, verificationCode, origin) => {
   }
 };
 
-const sendVerificationCodeEmail = async (
-  user,
-  verificationCode,
-  origin,
-  template
-) =>
+const sendVerificationCodeEmail = async (user, verificationCode, origin, template) =>
   await sendEmail(
     user.email.trim(),
-    get(
-      template,
-      "subject",
-      "Bienvenido a eBombo, porfavor confirma tu correo electrónico"
-    ),
+    get(template, "subject", "Bienvenido a eBombo, porfavor confirma tu correo electrónico"),
     template.content,
     {
       userName: get(user, "name", ""),
@@ -133,14 +114,9 @@ const sendVerificationCodeEmail = async (
   );
 
 const sendWelcomeEmail = async (user, origin, template) =>
-  await sendEmail(
-    user.email.trim(),
-    get(template, "subject", "Bienvenido"),
-    template.content,
-    {
-      userName: get(user, "name", ""),
-      userEmail: user.email.trim(),
-    }
-  );
+  await sendEmail(user.email.trim(), get(template, "subject", "Bienvenido"), template.content, {
+    userName: get(user, "name", ""),
+    userEmail: user.email.trim(),
+  });
 
 module.exports = { postUser };

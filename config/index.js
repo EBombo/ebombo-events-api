@@ -3,10 +3,7 @@ const configJson = require("./config");
 const url = require("url");
 const serviceAccountEventsDev = require("./ebombo-events-dev-firebase-adminsdk-brntw-ad09602471.json");
 
-const config =
-  process.env.NODE_ENV === "production"
-    ? configJson.production
-    : configJson.development;
+const config = process.env.NODE_ENV === "production" ? configJson.production : configJson.development;
 
 process.env.NODE_ENV === "production"
   ? admin.initializeApp()

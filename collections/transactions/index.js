@@ -2,10 +2,7 @@ const { snapshotToArray } = require("../../utils");
 const { firestore } = require("../../config");
 
 const fetchTransactionsByLobby = async (lobbyId) => {
-  const transactions = await firestore
-    .collection("transactions")
-    .where("extra.id", "==", lobbyId)
-    .get();
+  const transactions = await firestore.collection("transactions").where("extra.id", "==", lobbyId).get();
 
   return snapshotToArray(transactions);
 };
@@ -21,10 +18,7 @@ const fetchTransactionsByUserAndAction = async (userId, action) => {
 };
 
 const fetchTransactionsByExtraId = async (extraId) => {
-  const transactions = await firestore
-    .collection("transactions")
-    .where("extra.id", "==", extraId)
-    .get();
+  const transactions = await firestore.collection("transactions").where("extra.id", "==", extraId).get();
 
   return snapshotToArray(transactions);
 };
@@ -39,11 +33,7 @@ const fetchTransactionsByUserIdAndExtraId = async (userId, extraId) => {
   return snapshotToArray(transactions);
 };
 
-const fetchTransactionsByUserIdAndExtraIdAndAction = async (
-  userId,
-  extraId,
-  action
-) => {
+const fetchTransactionsByUserIdAndExtraIdAndAction = async (userId, extraId, action) => {
   const transactions = await firestore
     .collection("transactions")
     .where("action", "==", action)
@@ -56,18 +46,14 @@ const fetchTransactionsByUserIdAndExtraIdAndAction = async (
 
 const deletedTransactions = async (transactions) => {
   const promises = transactions.map(
-    async (transaction) =>
-      await firestore.doc(`transactions/${transaction.id}`).delete()
+    async (transaction) => await firestore.doc(`transactions/${transaction.id}`).delete()
   );
 
   await Promise.all(promises);
 };
 
 const fetchTransaction = async (transactionId) => {
-  const withdrawalDoc = await firestore
-    .collection("transactions")
-    .doc(transactionId)
-    .get();
+  const withdrawalDoc = await firestore.collection("transactions").doc(transactionId).get();
 
   return withdrawalDoc.data();
 };

@@ -19,11 +19,6 @@ const deleteMember = async (req, res, next) => {
 };
 
 const deleteMemberFromFirestore = async (memberId, companyId) =>
-  await firestore
-    .collection("companies")
-    .doc(companyId)
-    .collection("members")
-    .doc(memberId)
-    .delete();
+  await firestore.collection("companies").doc(companyId).collection("members").doc(memberId).delete();
 
 module.exports = { deleteMember };

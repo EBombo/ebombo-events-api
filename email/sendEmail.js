@@ -63,9 +63,7 @@ const replaceVariables = (content, models) => {
 
   Object.keys(models)
     .concat(Object.keys(models))
-    .forEach(
-      (model) => (content = content.replace(`{{${model}}}`, models[model]))
-    );
+    .forEach((model) => (content = content.replace(`{{${model}}}`, models[model])));
 
   return htmlBody(content, header);
 };

@@ -1,10 +1,4 @@
-const {
-  log,
-  info,
-  warn,
-  error,
-  write,
-} = require("firebase-functions/lib/logger");
+const { log, info, warn, error, write } = require("firebase-functions/lib/logger");
 
 module.exports = {
   log,

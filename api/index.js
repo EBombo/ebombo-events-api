@@ -28,9 +28,7 @@ router.use(bodyParser.json());
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/", async (req, res) =>
-  res.send(`Hello dev ${version} ${process.env.NODE_ENV} ${process.env.PORT}`)
-);
+router.get("/", async (req, res) => res.send(`Hello dev ${version} ${process.env.NODE_ENV} ${process.env.PORT}`));
 
 router.get("/tokens/:tokenId", getCustomToken);
 
@@ -42,11 +40,7 @@ router.post("/companies/:companyId", validateRequest, postCompany);
 
 router.put("/companies/:companyId", validateRequest, putCompany);
 
-router.post(
-  "/companies/:companyId/members",
-  validateRequest,
-  postCompanyMembers
-);
+router.post("/companies/:companyId/members", validateRequest, postCompanyMembers);
 
 router.delete("/companies/:companyId/members", validateRequest, deleteMember);
 
@@ -56,10 +50,7 @@ router.delete("/users/:userId", validateRequest, deleteUser);
 
 router.post("/tokens", postUserByToken);
 
-router.get(
-  "/verify/:userId/verification-code/:verificationCode",
-  getVerifyCode
-);
+router.get("/verify/:userId/verification-code/:verificationCode", getVerifyCode);
 
 router.get("/verify/:userId/resend-code", getResendVerifyCode);
 

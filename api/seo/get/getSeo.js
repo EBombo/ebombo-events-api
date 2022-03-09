@@ -5,10 +5,7 @@ const isEmpty = require("lodash/isEmpty");
 
 exports.getSeo = async (req, res, next) => {
   try {
-    logger.log(
-      "getSeo",
-      req.headers["x-forwarded-host"] || req.hostname || req.host
-    );
+    logger.log("getSeo", req.headers["x-forwarded-host"] || req.hostname || req.host);
 
     let domain = req.headers["x-forwarded-host"] || req.hostname || req.host;
     const path = get(req, "path");
@@ -21,8 +18,7 @@ exports.getSeo = async (req, res, next) => {
 
     const seo = seoQuery.data();
 
-    !isEmpty(seo) &&
-      res.set("Cache-Control", `public, max-age=${config.maxAgeCache}`);
+    !isEmpty(seo) && res.set("Cache-Control", `public, max-age=${config.maxAgeCache}`);
 
     return res.send(seo || {});
   } catch (error) {

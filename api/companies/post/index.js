@@ -1,3 +1,3 @@
 const { postCompany } = require("./postCompany");
 
-module.exports = { postCompany};
+module.exports = { postCompany };
