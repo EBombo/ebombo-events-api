@@ -16,7 +16,7 @@ exports.getGames = async (req, res, next) => {
     logger.log("gamesAdmin", gamesAdmin.length);
 
     // Prevent duplicate roulette.
-    const gamesAdminFiltered = gamesAdmin.filter((game) => game.name.toLowerCase().includes("question"));
+    const gamesAdminFiltered = gamesAdmin.filter((game) => !game.name.toLowerCase().includes("question"));
 
     const promises = gamesAdminFiltered.map(async (game) => {
       try {
