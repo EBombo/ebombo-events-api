@@ -2,7 +2,7 @@ steps:
   - id: "pull image"
     name: "gcr.io/cloud-builders/docker"
     entrypoint: "bash"
-    args: ["-c", "docker pull gcr.io/${PROJECT_ID}/${PROJECT_ID}-red-api:latest || exit 0"]
+    args: ["-c", "docker pull gcr.io/${PROJECT_ID}/${PROJECT_ID}-api:latest || exit 0"]
 
   - id: "build image"
     name: "gcr.io/cloud-builders/docker"
@@ -12,7 +12,7 @@ steps:
         "-t",
         "gcr.io/${PROJECT_ID}/${_SERVICE_NAME}:${_PR_NUMBER}-${SHORT_SHA}",
         "--cache-from",
-        "gcr.io/${PROJECT_ID}/${PROJECT_ID}-red-api:latest",
+        "gcr.io/${PROJECT_ID}/${PROJECT_ID}-api:latest",
         ".",
       ]
 
@@ -28,7 +28,7 @@ steps:
         "beta",
         "run",
         "deploy",
-        "${PROJECT_ID}-red-api",
+        "${PROJECT_ID}-api",
         "--platform",
         "managed",
         "--region",
@@ -51,7 +51,7 @@ steps:
         "--region",
         "us-central1",
         "--service",
-        "${PROJECT_ID}-red-api",
+        "${PROJECT_ID}-api",
         "--pull-request",
         "${_PR_NUMBER}",
         "--repo-name",
