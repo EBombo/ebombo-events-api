@@ -13,10 +13,7 @@ const postCompanyMembers = async (req, res, next) => {
       // Prevent create empty member.
       if (!memberEmail) return;
 
-      const membersRef = await firestore
-        .collection("companies")
-        .doc(companyId)
-        .collection("members");
+      const membersRef = await firestore.collection("companies").doc(companyId).collection("members");
       const memberId = await membersRef.doc().id;
 
       await membersRef.doc(memberId).set({

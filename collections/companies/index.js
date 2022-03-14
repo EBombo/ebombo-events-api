@@ -1,9 +1,7 @@
 const { firestore } = require("../../config");
 
 const fetchCompany = async (companyId) => {
-  const companyQuerySnapShot = await firestore
-    .doc(`companies/${companyId}`)
-    .get();
+  const companyQuerySnapShot = await firestore.doc(`companies/${companyId}`).get();
 
   return companyQuerySnapShot.exists ? companyQuerySnapShot.data() : null;
 };

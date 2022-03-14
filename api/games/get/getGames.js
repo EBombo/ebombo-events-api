@@ -15,7 +15,10 @@ exports.getGames = async (req, res, next) => {
 
     logger.log("gamesAdmin", gamesAdmin.length);
 
-    const promises = gamesAdmin.map(async (game) => {
+    // Prevent duplicate roulette.
+    const gamesAdminFiltered = gamesAdmin.filter((game) => !game.name.toLowerCase().includes("question"));
+
+    const promises = gamesAdminFiltered.map(async (game) => {
       try {
         let url = `${game.api}/games/users/${userId}`;
 

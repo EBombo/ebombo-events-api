@@ -10,7 +10,7 @@ const putUpdateUser = async (req, res, next) => {
 
     await updateUser(userId, {
       ...user,
-      updateAt: new Date()
+      updateAt: new Date(),
     });
 
     return res.send(200);

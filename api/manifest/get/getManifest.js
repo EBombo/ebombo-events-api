@@ -5,12 +5,7 @@ const { firestore, config } = require("../../../config");
 
 exports.getManifest = async (req, res, next) => {
   try {
-    logger.log(
-      "getManifest->",
-      req.headers["x-forwarded-host"],
-      req.hostname,
-      req.host
-    );
+    logger.log("getManifest->", req.headers["x-forwarded-host"], req.hostname, req.host);
 
     let domain = req.headers["x-forwarded-host"] || req.hostname || req.host;
 
@@ -18,16 +13,11 @@ exports.getManifest = async (req, res, next) => {
 
     let manifest = manifestRef.data();
 
-    domain = domain
-      .replace(".", "&")
-      .replace(".", "&")
-      .replace(".", "&")
-      .replace(".", "&");
+    domain = domain.replace(".", "&").replace(".", "&").replace(".", "&").replace(".", "&");
 
     manifest = get(manifest, domain);
 
-    manifest &&
-      res.set("Cache-Control", `public, max-age=${config.maxAgeCache}`);
+    manifest && res.set("Cache-Control", `public, max-age=${config.maxAgeCache}`);
     res.set("Content-Type", "application/json");
 
     return res.send({ ...defaultTo(manifest, {}) });

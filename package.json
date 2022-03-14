@@ -9,6 +9,7 @@
     "serve": "firebase serve --only functions",
     "shell": "firebase functions:shell",
     "start": "node index.js",
+    "format": "npx prettier --write .",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
@@ -27,6 +28,9 @@
   },
   "devDependencies": {
     "prettier": "^2.4.1"
+  },
+  "prettier": {
+    "printWidth": 120
   },
   "private": true
 }

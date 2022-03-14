@@ -42,11 +42,7 @@ router.post("/companies/:companyId", validateRequest, postCompany);
 
 router.put("/companies/:companyId", validateRequest, putCompany);
 
-router.post(
-  "/companies/:companyId/members",
-  validateRequest,
-  postCompanyMembers
-);
+router.post("/companies/:companyId/members", validateRequest, postCompanyMembers);
 
 router.delete("/companies/:companyId/members", validateRequest, deleteMember);
 
@@ -56,10 +52,7 @@ router.delete("/users/:userId", validateRequest, deleteUser);
 
 router.post("/tokens", postUserByToken);
 
-router.get(
-  "/verify/:userId/verification-code/:verificationCode",
-  getVerifyCode
-);
+router.get("/verify/:userId/verification-code/:verificationCode", getVerifyCode);
 
 router.get("/verify/:userId/resend-code", getResendVerifyCode);
 

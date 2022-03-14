@@ -10,16 +10,11 @@ const putCompanyMembers = async (req, res, next) => {
 
     const promises = members.map(
       async (member) =>
-        await firestore
-          .collection("companies")
-          .doc(companyId)
-          .collection("members")
-          .doc(member.id)
-          .update({
-            role,
-            ads,
-            updateAt: new Date(),
-          })
+        await firestore.collection("companies").doc(companyId).collection("members").doc(member.id).update({
+          role,
+          ads,
+          updateAt: new Date(),
+        })
     );
 
     await Promise.all(promises);

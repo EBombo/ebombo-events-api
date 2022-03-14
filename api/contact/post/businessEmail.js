@@ -11,13 +11,7 @@ const businessEmail = async (req, res, next) => {
     const templates = await fetchTemplates();
     const templateBusiness = templates["business"];
 
-    await sendEmail_(
-      config.mails,
-      message,
-      phoneNumber,
-      email,
-      templateBusiness
-    );
+    await sendEmail_(config.mails, message, phoneNumber, email, templateBusiness);
 
     return res.send(200);
   } catch (error) {
@@ -26,13 +20,7 @@ const businessEmail = async (req, res, next) => {
   }
 };
 
-const sendEmail_ = async (
-  emails,
-  message,
-  companyPhone,
-  companyEmail,
-  template
-) =>
+const sendEmail_ = async (emails, message, companyPhone, companyEmail, template) =>
   await sendEmail(emails, "Contacto de empresa ebombo.com", template.content, {
     message,
     companyEmail,
