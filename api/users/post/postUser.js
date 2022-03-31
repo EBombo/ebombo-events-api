@@ -39,7 +39,7 @@ const postUser = async (req, res, next) => {
 
     await sendMessage(user, verificationCode, origin);
 
-    if (user.event) await registerEvent(user.event);
+    if (user.event) await registerEvent(user.event, user.id);
 
     return res.send({ success: true });
   } catch (error) {
@@ -121,7 +121,7 @@ const sendWelcomeEmail = async (user, origin, template) =>
     userEmail: user.email.trim(),
   });
 
-const registerEvent = async (event) => {
+const registerEvent = async (event, userId) => {
   try {
     const eventRef = firestore.collection("events");
 
@@ -130,7 +130,15 @@ const registerEvent = async (event) => {
     await eventRef
       .doc(eventId)
       .set(
-        { ...event, manageByUser: "ebombo", createAt: new Date(), updateAt: new Date(), deleted: false, id: eventId },
+        {
+          ...event,
+          userId,
+          manageByUser: "ebombo",
+          createAt: new Date(),
+          updateAt: new Date(),
+          deleted: false,
+          id: eventId,
+        },
         { merge: true }
       );
   } catch (error) {
