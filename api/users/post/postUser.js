@@ -135,7 +135,7 @@ const registerEvent = async (event, userId) => {
     await eventRef.doc(eventId).set(
       {
         ...event,
-        ...datesFormatted,
+        ...datesFormatted[0],
         dates: datesFormatted,
         userId,
         manageByUser: false,
