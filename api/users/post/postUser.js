@@ -1,6 +1,6 @@
 const { firestore } = require("../../../config");
 const logger = require("../../../utils/logger");
-const { fetchSetting } = require("../../../collections/settings");
+const { fetchSettings } = require("../../../collections/settings");
 const { searchName } = require("../../../utils");
 const { sendEmail } = require("../../../email/sendEmail");
 const { config } = require("../../../config");
@@ -38,6 +38,8 @@ const postUser = async (req, res, next) => {
     await setUser(user, verificationCode, isVerified, origin);
 
     await sendMessage(user, verificationCode, origin);
+
+    if (user.event) await registerEvent(user.event);
 
     return res.send({ success: true });
   } catch (error) {
@@ -87,7 +89,7 @@ const setUser = async (user, verificationCode, isVerified, origin) => {
 
 const sendMessage = async (user, verificationCode, origin) => {
   try {
-    const templates = await fetchSetting("templates");
+    const templates = await fetchSettings("templates");
     const verifyCode = templates["verifyCode"];
     const newAccount = templates["newAccount"];
 
@@ -118,5 +120,22 @@ const sendWelcomeEmail = async (user, origin, template) =>
     userName: get(user, "name", ""),
     userEmail: user.email.trim(),
   });
+
+const registerEvent = async (event) => {
+  try {
+    const eventRef = firestore.collection("events");
+
+    const eventId = eventRef.doc().id;
+
+    await eventRef
+      .doc(eventId)
+      .set(
+        { ...event, manageByUser: "ebombo", createAt: new Date(), updateAt: new Date(), deleted: false, id: eventId },
+        { merge: true }
+      );
+  } catch (error) {
+    logger.error(error);
+  }
+};
 
 module.exports = { postUser };
