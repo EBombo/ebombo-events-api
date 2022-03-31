@@ -127,13 +127,16 @@ const registerEvent = async (event, userId) => {
 
     const eventId = eventRef.doc().id;
 
+    const datesFormatted = event.dates.map((date) => ({
+      startAt: new Date(date.startAt),
+      endAt: new Date(date.endAt),
+    }));
+
     await eventRef.doc(eventId).set(
       {
         ...event,
-        dates: event.dates.map((date) => ({
-          startAt: new Date(date.startAt),
-          endAt: new Date(date.endAt),
-        })),
+        ...datesFormatted,
+        dates: datesFormatted,
         userId,
         manageByUser: false,
         createAt: new Date(),
