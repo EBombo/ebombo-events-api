@@ -127,20 +127,18 @@ const registerEvent = async (event, userId) => {
 
     const eventId = eventRef.doc().id;
 
-    await eventRef
-      .doc(eventId)
-      .set(
-        {
-          ...event,
-          userId,
-          manageByUser: "ebombo",
-          createAt: new Date(),
-          updateAt: new Date(),
-          deleted: false,
-          id: eventId,
-        },
-        { merge: true }
-      );
+    await eventRef.doc(eventId).set(
+      {
+        ...event,
+        userId,
+        manageByUser: false,
+        createAt: new Date(),
+        updateAt: new Date(),
+        deleted: false,
+        id: eventId,
+      },
+      { merge: true }
+    );
   } catch (error) {
     logger.error(error);
   }
