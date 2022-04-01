@@ -18,6 +18,8 @@ const { version } = require("../config");
 const { postCompanyMembers } = require("./companies/members/post");
 const { putCompanyMembers } = require("./companies/members/put");
 const { deleteMember } = require("./companies/members/delete");
+const { postRelease } = require("./events/releases/post");
+const { putRelease } = require("./events/releases/put");
 
 const api = express();
 const router = express.Router();
@@ -63,6 +65,10 @@ router.post("/error-boundary", postError);
 router.post("/contact", businessEmail);
 
 router.get("/error-vanilla", getError);
+
+router.post("/events/:eventId/releases/:releaseId", validateRequest, postRelease);
+
+router.put("/events/:eventId/releases/:releaseId", validateRequest, putRelease);
 
 api.use("/api", router);
 
