@@ -7,7 +7,7 @@ const { fetchEvent } = require("../../../../collections/events");
 
 exports.putRelease = async (req, res, next) => {
   try {
-    logger.log("postRelease->", req.params);
+    logger.log("putRelease->", req.params);
 
     const { eventId, releaseId } = req.params;
     const release = req.body;
@@ -21,14 +21,14 @@ exports.putRelease = async (req, res, next) => {
       updateAt: new Date(),
     });
 
-    if (sentEmail) {
-      const event = fetchEvent(eventId);
-      const members = fetchEventMembers(eventId);
+    if (!sentEmail) return res.send({ success: true });
 
-      await Promise.all([event, members]);
+    const event = fetchEvent(eventId);
+    const members = fetchEventMembers(eventId);
 
-      await sentEmailToMembers(event, members, release);
-    }
+    await Promise.all([event, members]);
+
+    await sentEmailToMembers(event, members, release);
 
     return res.send({ success: true });
   } catch (error) {

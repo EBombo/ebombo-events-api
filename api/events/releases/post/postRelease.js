@@ -22,14 +22,14 @@ exports.postRelease = async (req, res, next) => {
       updateAt: new Date(),
     });
 
-    if (sentEmail) {
-      const event = fetchEvent(eventId);
-      const members = fetchEventMembers(eventId);
+    if (!sentEmail) return res.send({ success: true });
 
-      await Promise.all([event, members]);
+    const event = fetchEvent(eventId);
+    const members = fetchEventMembers(eventId);
 
-      await sentEmailToMembers(event, members, release);
-    }
+    await Promise.all([event, members]);
+
+    await sentEmailToMembers(event, members, release);
 
     return res.send({ success: true });
   } catch (error) {
