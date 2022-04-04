@@ -1,8 +1,8 @@
 const logger = require("../../../../utils/logger");
 const { fetchEventMembers } = require("../../../../collections/events/members");
 const { updateRelease } = require("../../../../collections/events/releases");
-const { fetchSettings } = require("../../../collections/settings");
-const { sendEmail } = require("../../../email/sendEmail");
+const { fetchSettings } = require("../../../../collections/settings");
+const { sendEmail } = require("../../../../email/sendEmail");
 const { fetchEvent } = require("../../../../collections/events");
 
 exports.postRelease = async (req, res, next) => {
@@ -56,5 +56,3 @@ const sentEmailToMembers = async (event, members, release) => {
     logger.error(error);
   }
 };
-
-

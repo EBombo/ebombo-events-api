@@ -1,4 +1,4 @@
-const { firestore } = require("../../config");
+const { firestore } = require("../../../config");
 
 const fetchRelease = async (eventId, releaseId) => {
   const releaseRef = await firestore.doc(`events/${eventId}/releases/${releaseId}`).get();

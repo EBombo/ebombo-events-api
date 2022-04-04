@@ -1,9 +1,8 @@
-const { firestore } = require("../../../config");
+const { firestore, config } = require("../../../config");
 const logger = require("../../../utils/logger");
 const { fetchSettings } = require("../../../collections/settings");
 const { searchName } = require("../../../utils");
 const { sendEmail } = require("../../../email/sendEmail");
-const { config } = require("../../../config");
 const { get, defaultTo } = require("lodash");
 
 const postUser = async (req, res, next) => {

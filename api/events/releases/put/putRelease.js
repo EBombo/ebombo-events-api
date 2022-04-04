@@ -1,59 +1,57 @@
 const logger = require("../../../../utils/logger");
 const { fetchEventMembers } = require("../../../../collections/events/members");
 const { updateRelease } = require("../../../../collections/events/releases");
-const { fetchSettings } = require("../../../collections/settings");
-const { sendEmail } = require("../../../email/sendEmail");
+const { fetchSettings } = require("../../../../collections/settings");
+const { sendEmail } = require("../../../../email/sendEmail");
 const { fetchEvent } = require("../../../../collections/events");
 
 exports.putRelease = async (req, res, next) => {
-    try {
-        logger.log("postRelease->", req.params);
+  try {
+    logger.log("postRelease->", req.params);
 
-        const { eventId, releaseId } = req.params;
-        const release = req.body;
+    const { eventId, releaseId } = req.params;
+    const release = req.body;
 
-        const sentEmail = release.sentEmail;
+    const sentEmail = release.sentEmail;
 
-        delete release.sentEmail;
+    delete release.sentEmail;
 
-        await updateRelease(eventId, releaseId, {
-            ...release,
-            updateAt: new Date(),
-        });
+    await updateRelease(eventId, releaseId, {
+      ...release,
+      updateAt: new Date(),
+    });
 
-        if (sentEmail) {
-            const event = fetchEvent(eventId);
-            const members = fetchEventMembers(eventId);
+    if (sentEmail) {
+      const event = fetchEvent(eventId);
+      const members = fetchEventMembers(eventId);
 
-            await Promise.all([event, members]);
+      await Promise.all([event, members]);
 
-            await sentEmailToMembers(event, members, release);
-        }
-
-        return res.send({ success: true });
-    } catch (error) {
-        logger.error(error);
-        next(error);
+      await sentEmailToMembers(event, members, release);
     }
+
+    return res.send({ success: true });
+  } catch (error) {
+    logger.error(error);
+    next(error);
+  }
 };
 
 const sentEmailToMembers = async (event, members, release) => {
-    try {
-        const templates = await fetchSettings("templates");
-        const releaseTemplate = templates["releaseTemplate"];
+  try {
+    const templates = await fetchSettings("templates");
+    const releaseTemplate = templates["releaseTemplate"];
 
-        const emailsPromise = members.map(async (member) => {
-            await sendEmail(member.email.trim(), release.subject, releaseTemplate.content, {
-                content: release.content,
-                imageUrl: release.imageUrl,
-                link: event.link,
-            });
-        });
+    const emailsPromise = members.map(async (member) => {
+      await sendEmail(member.email.trim(), release.subject, releaseTemplate.content, {
+        content: release.content,
+        imageUrl: release.imageUrl,
+        link: event.link,
+      });
+    });
 
-        await Promise.all(emailsPromise);
-    } catch (error) {
-        logger.error(error);
-    }
+    await Promise.all(emailsPromise);
+  } catch (error) {
+    logger.error(error);
+  }
 };
-
-
