@@ -12,16 +12,12 @@ exports.putRelease = async (req, res, next) => {
     const { eventId, releaseId } = req.params;
     const release = req.body;
 
-    const sentEmail = release.sentEmail;
-
-    delete release.sentEmail;
-
     await updateRelease(eventId, releaseId, {
       ...release,
       updateAt: new Date(),
     });
 
-    if (!sentEmail) return res.send({ success: true });
+    if (!release.sentEmail) return res.send({ success: true });
 
     const event = fetchEvent(eventId);
     const members = fetchEventMembers(eventId);
