@@ -14,14 +14,17 @@ exports.postRelease = async (req, res, next) => {
 
     await updateRelease(eventId, releaseId, {
       ...release,
+      deleted: false,
       createAt: new Date(),
       updateAt: new Date(),
     });
 
     if (!release.sentEmail) return res.send({ success: true });
 
-    const event = await fetchEvent(eventId);
-    const members = await fetchEventMembers(eventId);
+    const event = fetchEvent(eventId);
+    const members = fetchEventMembers(eventId);
+
+    await Promise.all([event, members]);
 
     await sentEmailToMembers(event, members, release);
 
