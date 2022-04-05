@@ -24,6 +24,8 @@ exports.putRelease = async (req, res, next) => {
 
     await Promise.all([event, members]);
 
+    logger.log("members->", members);
+
     await sentEmailToMembers(event, members, release);
 
     return res.send({ success: true });
@@ -37,6 +39,8 @@ const sentEmailToMembers = async (event, members, release) => {
   try {
     const templates = await fetchSettings("templates");
     const releaseTemplate = templates["releaseTemplate"];
+
+    logger.log("releaseTemplase->", releaseTemplate);
 
     const emailsPromise = members.map(async (member) => {
       await sendEmail(member.email.trim(), release.subject, releaseTemplate.content, {
