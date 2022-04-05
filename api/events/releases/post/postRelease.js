@@ -20,10 +20,8 @@ exports.postRelease = async (req, res, next) => {
 
     if (!release.sentEmail) return res.send({ success: true });
 
-    const event = fetchEvent(eventId);
-    const members = fetchEventMembers(eventId);
-
-    await Promise.all([event, members]);
+    const event = await fetchEvent(eventId);
+    const members = await fetchEventMembers(eventId);
 
     await sentEmailToMembers(event, members, release);
 
