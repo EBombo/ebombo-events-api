@@ -14,6 +14,7 @@ exports.postRelease = async (req, res, next) => {
 
     await updateRelease(eventId, releaseId, {
       ...release,
+      deleted: false,
       createAt: new Date(),
       updateAt: new Date(),
     });
