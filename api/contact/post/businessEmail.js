@@ -4,14 +4,15 @@ const { fetchTemplates } = require("../../../collections/settings");
 
 const businessEmail = async (req, res, next) => {
   try {
-    const message = req.body.message;
+    let message = req.body.message;
     const phoneNumber = req.body.phoneNumber;
     const email = req.body.email;
+    let interests = "Servicios de interes: " + req.body.interests.join(",");
 
     const templates = await fetchTemplates();
     const templateBusiness = templates["business"];
 
-    await sendEmail_(config.mails, message, phoneNumber, email, templateBusiness);
+    await sendEmail_(config.mails, message + interests, phoneNumber, email, templateBusiness);
 
     return res.send(200);
   } catch (error) {
