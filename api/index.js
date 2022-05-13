@@ -20,6 +20,8 @@ const { putCompanyMembers } = require("./companies/members/put");
 const { deleteMember } = require("./companies/members/delete");
 const { postRelease } = require("./events/releases/post");
 const { putRelease } = require("./events/releases/put");
+const { postEvent } = require("./events/post");
+const { putEvent } = require("./events/put");
 
 const api = express();
 const router = express.Router();
@@ -69,6 +71,10 @@ router.get("/error-vanilla", getError);
 router.post("/events/:eventId/releases/:releaseId", validateRequest, postRelease);
 
 router.put("/events/:eventId/releases/:releaseId", validateRequest, putRelease);
+
+router.post("/events", validateRequest, postEvent);
+
+router.put("/events/:eventId", validateRequest, putEvent);
 
 api.use("/api", router);
 

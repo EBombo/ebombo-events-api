@@ -1,7 +1,7 @@
 const logger = require("../../../../utils/logger");
 const { fetchEventMembers } = require("../../../../collections/events/members");
 const { updateRelease } = require("../../../../collections/events/releases");
-const { fetchSettings } = require("../../../../collections/settings");
+const { fetchTemplates } = require("../../../../collections/settings");
 const { sendEmail } = require("../../../../email/sendEmail");
 const { fetchEvent } = require("../../../../collections/events");
 
@@ -39,10 +39,8 @@ exports.postRelease = async (req, res, next) => {
 
 const sentEmailToMembers = async (event, members, release) => {
   try {
-    const templates = await fetchSettings("templates");
+    const templates = await fetchTemplates();
     const releaseTemplate = templates["releaseTemplate"];
-
-    logger.log("releaseTemplase->", releaseTemplate);
 
     const emailsPromise = members.map(async (member) => {
       await sendEmail(member.email.trim(), release.subject, releaseTemplate.content, {
