@@ -6,6 +6,8 @@ const fetchEvent = async (eventId) => {
   return eventRef.exists ? eventRef.data() : null;
 };
 
-const updateEvent = async (eventId, event) => await firestore.doc(`events/${eventId}`).set(event, { merge: true });
+const updateEvent = async (eventId, event) => {
+  await firestore.doc(`events/${eventId}`).set(event, { merge: true });
+};
 
 module.exports = { fetchEvent, updateEvent };

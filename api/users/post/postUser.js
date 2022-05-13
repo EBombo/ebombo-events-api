@@ -1,6 +1,6 @@
 const { firestore, config } = require("../../../config");
 const logger = require("../../../utils/logger");
-const { fetchSettings } = require("../../../collections/settings");
+const { fetchTemplates } = require("../../../collections/settings");
 const { searchName } = require("../../../utils");
 const { sendEmail } = require("../../../email/sendEmail");
 const { get, defaultTo } = require("lodash");
@@ -88,7 +88,7 @@ const setUser = async (user, verificationCode, isVerified, origin) => {
 
 const sendMessage = async (user, verificationCode, origin) => {
   try {
-    const templates = await fetchSettings("templates");
+    const templates = await fetchTemplates();
     const verifyCode = templates["verifyCode"];
     const newAccount = templates["newAccount"];
 
