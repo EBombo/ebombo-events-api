@@ -1,7 +1,8 @@
 const { firestore, config } = require("../../../config");
 const logger = require("../../../utils/logger");
 const { fetchTemplates } = require("../../../collections/settings");
-const { newCompanyId, newDefaultCompany } = require("../../../collections/companies");
+const { newCompanyId, newDefaultCompany, updateCompany } = require("../../../collections/companies");
+const { updateUser } = require("../../../collections/users");
 const { searchName } = require("../../../utils");
 const { sendEmail } = require("../../../email/sendEmail");
 const { get, defaultTo } = require("lodash");

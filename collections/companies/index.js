@@ -2,7 +2,7 @@ const { firestore } = require("../../config");
 
 const newCompanyId = () => firestore.collection("companies").doc().id;
 
-const newDefaultCompany = () => ({
+const newDefaultCompany = (companyId) => ({
   id: companyId,
   createAt: new Date(),
   updateAt: new Date(),
