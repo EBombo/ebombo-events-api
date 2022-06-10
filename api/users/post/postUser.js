@@ -1,6 +1,8 @@
 const { firestore, config } = require("../../../config");
 const logger = require("../../../utils/logger");
 const { fetchTemplates } = require("../../../collections/settings");
+const { newCompanyId, newDefaultCompany, updateCompany } = require("../../../collections/companies");
+const { updateUser } = require("../../../collections/users");
 const { searchName } = require("../../../utils");
 const { sendEmail } = require("../../../email/sendEmail");
 const { get, defaultTo } = require("lodash");
@@ -35,6 +37,22 @@ const postUser = async (req, res, next) => {
     let isVerified = user.providerData.providerId !== "password";
 
     await setUser(user, verificationCode, isVerified, origin);
+
+    const companyId = newCompanyId();
+
+    const newCompany = {
+      ...newDefaultCompany(),
+      id: companyId,
+      usersIds: [user.id],
+    };
+
+    await updateCompany(companyId, newCompany);
+
+    await updateUser(user.id, {
+      companyId,
+      company: newCompany,
+      updateAt: new Date(),
+    })
 
     await sendMessage(user, verificationCode, origin);
 
