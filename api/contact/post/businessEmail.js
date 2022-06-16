@@ -1,4 +1,4 @@
-const { config, firestore } = require("../../../config");
+const { config, firestore, adminFirestore } = require("../../../config");
 const { sendEmail } = require("../../../email/sendEmail");
 const { fetchTemplates } = require("../../../collections/settings");
 
@@ -29,7 +29,17 @@ const businessEmail = async (req, res, next) => {
       updateAt: new Date(),
     });
 
-    await Promise.all([promiseEmail, promiseFirebase]);
+    let analytics = {
+      totalContacts: adminFirestore.FieldValue.increment(1),
+    };
+
+    if (isBdev) {
+      analytics.totalContactsBdev = adminFirestore.FieldValue.increment(1);
+    }
+
+    const promiseSettings = firestore.collection("settings").doc("analytics").set(analytics, { merge: true });
+
+    await Promise.all([promiseEmail, promiseFirebase, promiseSettings]);
 
     return res.send(200);
   } catch (error) {
