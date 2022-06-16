@@ -7,7 +7,7 @@ const moment = require("moment");
 
 const postEvent = async (req, res, next) => {
   try {
-    logger.log("create event->", req.body);
+    logger.log("postEvent->", req.body);
 
     const event = req.body;
     const eventId = req.params.userId;
