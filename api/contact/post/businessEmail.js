@@ -15,6 +15,7 @@ const businessEmail = async (req, res, next) => {
 
     const promiseEmail = sendEmail_(config.mails, message + interests, phoneNumber, email, templateBusiness);
 
+    /** Create document for contacts collection. **/
     const contactsRef = firestore.collection("contacts");
     const contactId = contactsRef.doc().id;
     const promiseFirebase = firestore.doc(`contacts/${contactId}`).set({
@@ -29,15 +30,8 @@ const businessEmail = async (req, res, next) => {
       updateAt: new Date(),
     });
 
-    let analytics = {
-      totalContacts: adminFirestore.FieldValue.increment(1),
-    };
-
-    if (isBdev) {
-      analytics.totalContactsBdev = adminFirestore.FieldValue.increment(1);
-    }
-
-    const promiseSettings = firestore.collection("settings").doc("analytics").set(analytics, { merge: true });
+    /** Update analytics for Bdev. **/
+    const promiseSettings = updateSettingAnalytics(isBdev);
 
     await Promise.all([promiseEmail, promiseFirebase, promiseSettings]);
 
@@ -53,5 +47,17 @@ const sendEmail_ = async (emails, message, companyPhone, companyEmail, template)
     companyEmail,
     companyPhone,
   });
+
+const updateSettingAnalytics = async (isBdev) => {
+  let analytics = {
+    totalContacts: adminFirestore.FieldValue.increment(1),
+  };
+
+  if (isBdev) {
+    analytics.totalContactsBdev = adminFirestore.FieldValue.increment(1);
+  }
+
+  await firestore.collection("settings").doc("analytics").set(analytics, { merge: true });
+};
 
 module.exports = { businessEmail };
