@@ -52,7 +52,7 @@ const postUser = async (req, res, next) => {
       companyId,
       company: newCompany,
       updateAt: new Date(),
-    })
+    });
 
     await sendMessage(user, verificationCode, origin);
 
@@ -99,6 +99,7 @@ const setUser = async (user, verificationCode, isVerified, origin) => {
         terms: true,
         theme: get(user, "theme", "darkTheme"),
         acls: user.acls || {},
+        isBdev: get(user, "isBdev", false),
       },
       { merge: true }
     );
