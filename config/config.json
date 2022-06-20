@@ -4,7 +4,7 @@
       "service": "gmail",
       "host": "smtp.gmail.com",
       "from": "Bombo Perú Team",
-      "user": "hello@bombo.pe",
+      "user": "hello@ebombo.com",
       "password": "Bomboperu123",
       "storageUrl": ""
     },
@@ -20,7 +20,7 @@
       "service": "gmail",
       "host": "smtp.gmail.com",
       "from": "Bombo Perú Team",
-      "user": "hello@bombo.pe",
+      "user": "hello@ebombo.com",
       "password": "Bomboperu123",
       "storageUrl": ""
     },
