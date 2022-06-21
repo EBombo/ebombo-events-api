@@ -5,17 +5,8 @@
       "host": "smtp.gmail.com",
       "from": "Bombo Perú Team",
       "user": "hello@ebombo.com",
-      "password": "Bomboperu123",
+      "password": "pzwsercyhnbstlph",
       "storageUrl": ""
-    },
-    "firebase": {
-      "apiKey": "AIzaSyAUBaakhi0swY_FDM3LeuGrfIN1Li7AugM",
-      "authDomain": "ebombo-events.firebaseapp.com",
-      "projectId": "ebombo-events",
-      "storageBucket": "ebombo-events.appspot.com",
-      "messagingSenderId": "83072686764",
-      "appId": "1:83072686764:web:2c5680dc46bfacb5d5dd09",
-      "measurementId": "G-BWH1540T4Q"
     },
     "phone": "",
     "currency": "",
@@ -30,7 +21,7 @@
       "host": "smtp.gmail.com",
       "from": "Bombo Perú Team",
       "user": "hello@ebombo.com",
-      "password": "Bomboperu123",
+      "password": "pzwsercyhnbstlph",
       "storageUrl": ""
     },
     "firebase": {
