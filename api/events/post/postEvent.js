@@ -51,7 +51,7 @@ const sendEmailToMembers = async (event, members) => {
 
 const sendEmailToUsers = async (user, event, template) =>
   await sendEmail(user.email.trim(), event.name, template, {
-    startAt: moment(event.startAt).format("DD/MM/YYYY h:mm a"),
+    startAt: moment(event.startAt.toDate()).format("DD/MM/YYYY h:mm a"),
     link: event.link,
     userEmail: user.email.trim(),
     imageUrl: event.imageUrl,
