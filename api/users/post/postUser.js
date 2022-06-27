@@ -1,6 +1,8 @@
-const { firestore, config } = require("../../../config");
+const { firestore, config, adminFirestore } = require("../../../config");
 const logger = require("../../../utils/logger");
-const { fetchSettings } = require("../../../collections/settings");
+const { fetchTemplates, updateSetting } = require("../../../collections/settings");
+const { newCompanyId, newDefaultCompany, updateCompany } = require("../../../collections/companies");
+const { updateUser } = require("../../../collections/users");
 const { searchName } = require("../../../utils");
 const { sendEmail } = require("../../../email/sendEmail");
 const { get, defaultTo } = require("lodash");
@@ -14,14 +16,15 @@ const postUser = async (req, res, next) => {
 
     user.id = req.params.userId;
 
+    /** User email validation. **/
     if (!user.email)
       return res.status(412).send({
         statusText: "invalid-email",
         message: "Email es requerido",
       });
 
+    /** User phoneNumber validation. **/
     const phoneNumber = get(user, "phoneNumber", null);
-
     const phoneNumberAlreadyExists =
       user.providerData.providerId === "password" ? await isPhoneNumberAlreadyExists(phoneNumber) : false;
 
@@ -36,9 +39,29 @@ const postUser = async (req, res, next) => {
 
     await setUser(user, verificationCode, isVerified, origin);
 
+    // TODO: Consider to move this into a function.
+    const companyId = newCompanyId();
+    const newCompany = {
+      ...newDefaultCompany(),
+      id: companyId,
+      usersIds: [user.id],
+    };
+
+    await updateCompany(companyId, newCompany);
+
+    // TODO: Consider create the company before the user, remember the write has a cost.
+    await updateUser(user.id, {
+      companyId,
+      company: newCompany,
+      updateAt: new Date(),
+    });
+
     await sendMessage(user, verificationCode, origin);
 
     if (user.event) await registerEvent(user.event, user.id);
+
+    /** Update analytics for Bdev. **/
+    await updateSettingAnalytics(user);
 
     return res.send({ success: true });
   } catch (error) {
@@ -81,6 +104,7 @@ const setUser = async (user, verificationCode, isVerified, origin) => {
         terms: true,
         theme: get(user, "theme", "darkTheme"),
         acls: user.acls || {},
+        isBdev: get(user, "isBdev", false),
       },
       { merge: true }
     );
@@ -88,7 +112,7 @@ const setUser = async (user, verificationCode, isVerified, origin) => {
 
 const sendMessage = async (user, verificationCode, origin) => {
   try {
-    const templates = await fetchSettings("templates");
+    const templates = await fetchTemplates();
     const verifyCode = templates["verifyCode"];
     const newAccount = templates["newAccount"];
 
@@ -148,6 +172,18 @@ const registerEvent = async (event, userId) => {
   } catch (error) {
     logger.error(error);
   }
+};
+
+const updateSettingAnalytics = async (user) => {
+  let analytics = {
+    totalUsers: adminFirestore.FieldValue.increment(1),
+  };
+
+  if (user.isBdev) {
+    analytics.totalUsersBdev = adminFirestore.FieldValue.increment(1);
+  }
+
+  await firestore.collection("settings").doc("analytics").set(analytics, { merge: true });
 };
 
 module.exports = { postUser };

@@ -4,8 +4,8 @@
       "service": "gmail",
       "host": "smtp.gmail.com",
       "from": "Bombo Perú Team",
-      "user": "hello@bombo.pe",
-      "password": "Bomboperu123",
+      "user": "hello@ebombo.com",
+      "password": "pzwsercyhnbstlph",
       "storageUrl": ""
     },
     "phone": "",
@@ -20,8 +20,8 @@
       "service": "gmail",
       "host": "smtp.gmail.com",
       "from": "Bombo Perú Team",
-      "user": "hello@bombo.pe",
-      "password": "Bomboperu123",
+      "user": "hello@ebombo.com",
+      "password": "pzwsercyhnbstlph",
       "storageUrl": ""
     },
     "firebase": {

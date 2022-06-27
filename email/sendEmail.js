@@ -1,11 +1,11 @@
 const nodemailer = require("nodemailer");
-let smtpTransport = require("nodemailer-smtp-transport");
+const smtpTransport = require("nodemailer-smtp-transport");
 const { config } = require("../config");
 const logger = require("../utils/logger");
 
 const SERVICE = config.serverEmail.service;
 const HOST = config.serverEmail.host;
-const FROM = `${config.serverEmail.from} <config.serverEmail.user>`;
+const FROM = config.serverEmail.from + ` <${config.serverEmail.user}>`;
 const USER = config.serverEmail.user;
 const PASSWORD = config.serverEmail.password;
 
@@ -14,6 +14,7 @@ exports.sendEmail = async (to, subject, content, models) => {
     if (!to) return;
 
     logger.log({
+      FROM,
       service: SERVICE,
       host: HOST,
       auth: {
@@ -62,8 +63,8 @@ const replaceVariables = (content, models) => {
   }
 
   Object.keys(models)
-    .concat(Object.keys(models))
-    .forEach((model) => (content = content.replace(`{{${model}}}`, models[model])));
+      .concat(Object.keys(models))
+      .forEach((model) => (content = content.replace(`{{${model}}}`, models[model])));
 
   return htmlBody(content, header);
 };
@@ -84,7 +85,7 @@ const splitHeader = (content) => {
 };
 
 const htmlBody = (content, head) =>
-  `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
       <meta charset="UTF-8" />

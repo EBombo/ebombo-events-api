@@ -12,4 +12,12 @@ const fetchTemplates = async () => {
   return templates_.data();
 };
 
-module.exports = { fetchSettings, updateSetting, fetchTemplates };
+const fetchTemplate = async (templateName) => {
+  const templates_ = await firestore.doc("settings/templates").get();
+  const templateData = templates_.data();
+
+  if (templateData) return templateData[templateName].content;
+};
+
+
+module.exports = { fetchSettings, updateSetting, fetchTemplates, fetchTemplate };
