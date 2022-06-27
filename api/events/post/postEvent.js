@@ -10,7 +10,6 @@ const postEvent = async (req, res, next) => {
     logger.log("postEvent->", req.body);
 
     const event = req.body;
-    const eventId = req.params.userId;
 
     const members = event.members ?? [];
 
@@ -27,7 +26,7 @@ const postEvent = async (req, res, next) => {
 
     delete event.currentDate;
 
-    await updateEvent(eventId, { ...event, startAt, endAt, createAt: new Date(), updateAt: new Date() });
+    await updateEvent(event.id, { ...event, startAt, endAt, createAt: new Date(), updateAt: new Date() });
 
     if (event.sendEmail)
       await sendEmailToMembers({ ...event, startAt, endAt, createAt: new Date(), updateAt: new Date() }, members);
