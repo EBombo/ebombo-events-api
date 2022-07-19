@@ -10,7 +10,7 @@ const putEvent = async (req, res, next) => {
     logger.log("update event->", req.body);
 
     const event = req.body;
-    const eventId = req.params.userId;
+    const eventId = req.params.eventId;
 
     const members = event.members ?? [];
 
