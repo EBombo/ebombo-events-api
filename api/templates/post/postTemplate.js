@@ -1,4 +1,5 @@
 const { firestore } = require("../../../config");
+const { updateQuestions, updateTemplate } = require("../../../collections/templates");
 
 exports.postTemplate = async (req, res, next) => {
   try {
@@ -12,29 +13,15 @@ exports.postTemplate = async (req, res, next) => {
 
     const templateId = firestore.collection("templates").doc().id;
 
-    await firestore
-      .collection("templates")
-      .doc(templateId)
-      .set({
-        ...game,
-        createAt: new Date(),
-        updateAt: new Date(),
-        deleted: false,
-      });
+    await updateTemplate(templateId, {
+      ...game,
+      createAt: new Date(),
+      updateAt: new Date(),
+      deleted: false,
+    });
 
     const questionsPromises = questions.map(async (question, index) => {
-      await firestore
-        .collection("templates")
-        .doc(templateId)
-        .collection("questions")
-        .doc(question.id)
-        .set({
-          ...question,
-          questionNumber: index + 1,
-          createAt: new Date(),
-          updateAt: new Date(),
-          deleted: false,
-        });
+      await updateQuestions(templateId, question, index);
     });
 
     await Promise.all(questionsPromises);

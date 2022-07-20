@@ -1,4 +1,4 @@
-const { firestore } = require("../../../config");
+const { updateQuestions, updateTemplate } = require("../../../collections/templates");
 
 exports.putTemplate = async (req, res, next) => {
   try {
@@ -11,31 +11,14 @@ exports.putTemplate = async (req, res, next) => {
 
     delete game.questions;
 
-    await firestore
-      .collection("templates")
-      .doc(templateId)
-      .set(
-        {
-          ...game,
-          updateAt: new Date(),
-          deleted: false,
-        },
-        { merge: true }
-      );
+    await updateTemplate(templateId, {
+      ...game,
+      updateAt: new Date(),
+      deleted: false,
+    });
 
     const questionsPromises = questions.map(async (question, index) => {
-      await firestore
-        .collection("templates")
-        .doc(templateId)
-        .collection("questions")
-        .doc(question.id)
-        .set({
-          ...question,
-          questionNumber: index + 1,
-          createAt: new Date(),
-          updateAt: new Date(),
-          deleted: false,
-        });
+      await updateQuestions(templateId, question, index);
     });
 
     await Promise.all(questionsPromises);
