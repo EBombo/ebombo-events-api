@@ -22,6 +22,8 @@ const { postRelease } = require("./events/releases/post");
 const { putRelease } = require("./events/releases/put");
 const { postEvent } = require("./events/post");
 const { putEvent } = require("./events/put");
+const { postTemplate } = require("./templates/post");
+const { putTemplate } = require("./templates/put");
 
 const api = express();
 const router = express.Router();
@@ -61,6 +63,10 @@ router.get("/verify/:userId/resend-code", getResendVerifyCode);
 router.get("/manifest", getManifest);
 
 router.get("/games/users/:userId", getGames);
+
+router.post("/templates/:templateId", postTemplate);
+
+router.put("/templates/:templateId", putTemplate);
 
 router.post("/error-boundary", postError);
 
