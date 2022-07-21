@@ -26,7 +26,7 @@ const { putEvent } = require("./events/put");
 const { postTemplate } = require("./templates/post");
 const { putTemplate } = require("./templates/put");
 const { updateSubscription } = require("./subscriptions/put");
-const { reviewUpdateSubscription } = require("./subscriptions/review/get");
+const { reviewUpdateSubscription } = require("./subscriptions/review/post");
 
 const api = express();
 const router = express.Router();
@@ -87,7 +87,7 @@ router.put("/events/:eventId", validateRequest, putEvent);
 
 router.put("/subscriptions/:subscriptionId", validateAuthUser, updateSubscription);
 
-router.get("/subscriptions/:subscriptionId/review", validateAuthUser, reviewUpdateSubscription);
+router.post("/subscriptions/:subscriptionId/review", validateAuthUser, reviewUpdateSubscription);
 
 api.use("/api", router);
 

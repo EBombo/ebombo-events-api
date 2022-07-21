@@ -7,7 +7,7 @@ const reviewUpdateSubscription = async (req, res, next) => {
 
     // Field customerId is the ID stripe uses to identify the user/company.
     // Field priceId is the new price to switch.
-    const { priceId, customerId } = req.query;
+    const { priceId, customerId } = req.body;
 
     if (!priceId) throw new Error("No priceId provided");
     if (!customerId) throw new Error("No customerId provided");
