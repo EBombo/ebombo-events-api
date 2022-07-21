@@ -12,7 +12,7 @@ const reviewUpdateSubscription = async (req, res, next) => {
     if (!priceId) throw new Error("No priceId provided");
     if (!customerId) throw new Error("No customerId provided");
 
-    logger.log(`update subscription ${subscriptionId} -> to price ${priceId}`);
+    logger.log(`Review of subscription update ${subscriptionId} -> to price ${priceId}`);
 
     // Set proration date to this moment:
     const proration_date = Math.floor(Date.now() / 1000);
@@ -37,7 +37,7 @@ const reviewUpdateSubscription = async (req, res, next) => {
 
     return res.send({ success: true, invoice: invoice });
   } catch (error) {
-    console.error("update subscription error->", error.message);
+    console.error("review subscription update error->", error.message);
     return res.status(409).send({error: error.message});
   }
 };
