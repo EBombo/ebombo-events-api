@@ -1,9 +1,18 @@
+require('dotenv').config();
+
 const admin = require("firebase-admin");
 const configJson = require("./config");
 const url = require("url");
 const serviceAccountEventsDev = require("./ebombo-events-dev-firebase-adminsdk-brntw-ad09602471.json");
 
-const config = process.env.NODE_ENV === "production" ? configJson.production : configJson.development;
+console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+
+const CONFIG = process.env.SERVER_CONFIG ?? "";
+// console.log("process.env.SERVER_CONFIG", CONFIG);
+
+const config = JSON.parse(CONFIG);
+
+const stripe = require('stripe')(config.stripeApiKey);
 
 process.env.NODE_ENV === "production"
   ? admin.initializeApp()
@@ -34,4 +43,5 @@ module.exports = {
   auth,
   config,
   version,
+  stripe,
 };
