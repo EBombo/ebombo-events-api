@@ -7,6 +7,7 @@ const { getManifest } = require("./manifest/get");
 const { getResendVerifyCode, getCustomToken } = require("./users/get");
 const { getVerifyCode } = require("./users/get");
 const { validateRequest } = require("./validateRequest");
+const { validateAuthUser } = require("./validateAuthUser");
 const { deleteUser } = require("./users/delete");
 const { putUpdateUser } = require("./users/put");
 const { postUser, postUserByToken } = require("./users/post");
@@ -24,6 +25,8 @@ const { postEvent } = require("./events/post");
 const { putEvent } = require("./events/put");
 const { postTemplate } = require("./templates/post");
 const { putTemplate } = require("./templates/put");
+const { updateSubscription } = require("./subscriptions/put");
+const { reviewUpdateSubscription } = require("./subscriptions/review/post");
 
 const api = express();
 const router = express.Router();
@@ -81,6 +84,10 @@ router.put("/events/:eventId/releases/:releaseId", validateRequest, putRelease);
 router.post("/events", validateRequest, postEvent);
 
 router.put("/events/:eventId", validateRequest, putEvent);
+
+router.put("/subscriptions/:subscriptionId", validateAuthUser, updateSubscription);
+
+router.post("/subscriptions/:subscriptionId/review", validateAuthUser, reviewUpdateSubscription);
 
 api.use("/api", router);
 

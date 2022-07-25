@@ -13,6 +13,7 @@ steps:
         "gcr.io/${PROJECT_ID}/${PROJECT_ID}-red-api",
         "--cache-from",
         "gcr.io/${PROJECT_ID}/${PROJECT_ID}-red-api:latest",
+        "--build-arg=SERVER_CONFIG=$_SERVER_CONFIG",
         ".",
       ]
 
