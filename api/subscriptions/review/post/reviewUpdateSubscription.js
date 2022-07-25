@@ -38,7 +38,7 @@ const reviewUpdateSubscription = async (req, res, next) => {
     return res.send({ success: true, invoice: invoice });
   } catch (error) {
     console.error("review subscription update error->", error.message);
-    return res.status(409).send({error: error.message});
+    return res.status(409).send({message: error.message});
   }
 };
 

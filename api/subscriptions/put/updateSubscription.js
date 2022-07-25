@@ -29,7 +29,7 @@ const updateSubscription = async (req, res, next) => {
     return res.send({ success: true, subscriptionUpdated: subscriptionUpdated });
   } catch (error) {
     console.error("update subscription error->", error.message);
-    return res.status(409).send({error: error.message});
+    return res.status(409).send({message: error.message});
   }
 
 };
